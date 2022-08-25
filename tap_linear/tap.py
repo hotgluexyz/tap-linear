@@ -3,10 +3,12 @@
 from typing import List
 from singer_sdk import Tap, Stream
 from singer_sdk import typing as th
-from tap_linear.streams import IssuesStream
+from tap_linear.streams import IssuesStream,ProjectsStream,UsersStream
 
 STREAM_TYPES = [
     IssuesStream,
+    ProjectsStream,
+    UsersStream
 ]
 
 
@@ -39,3 +41,6 @@ class TapLinear(Tap):
     def discover_streams(self) -> List[Stream]:
         """Return a list of discovered streams."""
         return [stream_class(tap=self) for stream_class in STREAM_TYPES]
+
+if __name__ == "__main__":
+    TapLinear.cli()
