@@ -1,8 +1,9 @@
 """GraphQL client handling, including LinearStream base class."""
 
 from datetime import timedelta
+from typing import Any, Iterable, Optional
+
 import requests
-from typing import Any, Optional, Iterable
 from singer_sdk.authenticators import APIKeyAuthenticator
 from singer_sdk.streams import GraphQLStream
 
