@@ -1,4 +1,3 @@
-
 projectsQuery = """
         query Projects($next: String, $replicationKeyValue: DateTime) {
 						projects(

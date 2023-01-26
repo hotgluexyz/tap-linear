@@ -1,4 +1,3 @@
-
 usersQuery = """
         query Users($next: String, $replicationKeyValue: DateTime) {
 						users(
