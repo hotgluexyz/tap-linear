@@ -5,6 +5,7 @@ import requests
 from typing import Any, Optional, Iterable
 from singer_sdk.authenticators import APIKeyAuthenticator
 from singer_sdk.streams import GraphQLStream
+from singer_sdk.exceptions import FatalAPIError, RetriableAPIError
 
 
 class LinearStream(GraphQLStream):
@@ -60,3 +61,27 @@ class LinearStream(GraphQLStream):
         resp_json = response.json()
         for row in resp_json["data"][self.name]["nodes"]:
             yield row
+    
+    def validate_response(self, response: requests.Response) -> None:
+
+        if (
+            response.status_code in self.extra_retry_statuses
+            or 500 <= response.status_code < 600
+        ):
+            msg = self.response_error_message(response)
+            raise RetriableAPIError(msg, response)
+        elif 400 <= response.status_code < 500:
+            msg = self.response_error_message(response)
+            raise FatalAPIError(msg)
+
+    def response_error_message(self, response: requests.Response) -> str:
+
+        if 400 <= response.status_code < 500:
+            error_type = "Client"
+        else:
+            error_type = "Server"
+
+        return (
+            f"{response.status_code} {error_type} Error: "
+            f"{response.text} for path: {self.path}"
+        )
