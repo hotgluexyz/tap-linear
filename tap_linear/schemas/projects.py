@@ -4,10 +4,17 @@ projectsSchema = th.PropertiesList(
     th.Property("id", th.StringType),
     th.Property("name", th.StringType),
     th.Property(
-        "milestone",
+        "projectMilestones",
         th.ObjectType(
-            th.Property("id", th.StringType),
-            th.Property("name", th.StringType),
+            th.Property(
+                "nodes",
+                th.ArrayType(
+                    th.ObjectType(
+                        th.Property("id", th.StringType),
+                        th.Property("name", th.StringType),
+                    )
+                ),
+            )
         ),
     ),
     th.Property("url", th.StringType),
