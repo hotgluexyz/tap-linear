@@ -1,5 +1,5 @@
 teamsQuery = """
-    query Teams($next: String, $replicationKeyValue: DateTime) {
+    query Teams($next: String, $replicationKeyValue: DateTimeOrDuration) {
 						teams(
 							first: 100
 							after: $next

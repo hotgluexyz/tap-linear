@@ -1,5 +1,5 @@
 commentsQuery = """
-        query Comments($next: String, $replicationKeyValue: DateTime) {
+        query Comments($next: String, $replicationKeyValue: DateTimeOrDuration) {
 						comments(
 							first: 100
 							after: $next

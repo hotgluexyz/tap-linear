@@ -1,5 +1,5 @@
 projectsQuery = """
-        query Projects($next: String, $replicationKeyValue: DateTime) {
+        query Projects($next: String, $replicationKeyValue: DateTimeOrDuration) {
 						projects(
 							first: 100
 							after: $next
@@ -12,9 +12,11 @@ projectsQuery = """
 							nodes {
 								id
 								name
-								milestone {
-                                    id
-                                    name
+                                projectMilestones{
+                                    nodes{
+                                        name
+                                        id
+                                    }
                                 }
 								url
 								progress
