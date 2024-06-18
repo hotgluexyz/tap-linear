@@ -11,13 +11,21 @@ commentsQuery = """
 							}
 							nodes {
 								id
-                                url
-                                bodyData
-                                createdAt
-                                updatedAt
-                                body
-                                reactionData
-                                editedAt
+								createdAt
+								updatedAt
+								archivedAt
+								body
+								resolvedAt
+								editedAt
+								bodyData
+								quotedText
+								summaryText
+								reactionData
+								url
+								issue {
+									id
+									title
+								}
 							}
 						}
 					}
