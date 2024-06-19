@@ -14,6 +14,44 @@ issuesQuery = """
 								title
 								url
 								updatedAt
+								number
+								priority
+								estimate
+								createdAt
+								boardOrder
+								startedAt
+								completedAt
+								startedTriageAt
+								triagedAt
+								canceledAt
+								autoClosedAt
+								autoArchivedAt
+								dueDate
+								slaStartedAt
+								slaBreachesAt
+								trashed
+								snoozedUntilAt
+								labelIds
+								state {
+									id
+									createdAt
+									updatedAt
+									archivedAt
+									name
+									description
+									position
+									type
+								}
+								cycle {
+									id
+									number
+									name
+								}
+								project {
+									id
+									name
+									slugId
+								}
 								creator {
 									id
 									name

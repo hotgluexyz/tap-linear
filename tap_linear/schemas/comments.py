@@ -6,7 +6,11 @@ commentsSchema = th.PropertiesList(
     th.Property("bodyData", th.StringType),
     th.Property("createdAt", th.DateTimeType),
     th.Property("updatedAt", th.DateTimeType),
+    th.Property("resolvedAt", th.DateTimeType),
     th.Property("body", th.StringType),
+    th.Property("bodyData", th.StringType),
+    th.Property("quotedText", th.StringType),
+    th.Property("summaryText", th.StringType),
     th.Property(
         "reactionData",
         th.ArrayType(
@@ -25,5 +29,13 @@ commentsSchema = th.PropertiesList(
             )
         ),
     ),
+    th.Property(
+        "issue",
+        th.ObjectType(
+            th.Property("id", th.StringType),
+            th.Property("title", th.StringType),
+        ),
+    ),
     th.Property("editedAt", th.DateTimeType),
+    th.Property("children", th.CustomType({"type": ["object", "string"]})),
 ).to_dict()

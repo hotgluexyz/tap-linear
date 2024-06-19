@@ -11,6 +11,7 @@ from singer_sdk.exceptions import FatalAPIError, RetriableAPIError
 
 class LinearStream(GraphQLStream):
     """Linear stream class."""
+    extra_retry_statuses = [429, 104, 101]
 
     @property
     def authenticator(self) -> APIKeyAuthenticator:
