@@ -18,7 +18,7 @@ class LinearStream(GraphQLStream):
         token = self.config.get("access_token") or self.config.get("auth_token")
         if not token:
             raise FatalAPIError("Access token or auth token required")
-        if self.config.get("auth_token"):
+        if self.config.get("access_token"):
             return BearerTokenAuthenticator.create_for_stream(self, token=token)
         # Fallback to API key
         return APIKeyAuthenticator.create_for_stream(
