@@ -4,7 +4,7 @@ from datetime import timedelta
 from typing import Any, Iterable, Optional
 
 import requests
-from singer_sdk.authenticators import APIKeyAuthenticator
+from singer_sdk.authenticators import APIKeyAuthenticator, BearerTokenAuthenticator
 from singer_sdk.streams import GraphQLStream
 from singer_sdk.exceptions import FatalAPIError, RetriableAPIError
 
@@ -15,10 +15,16 @@ class LinearStream(GraphQLStream):
 
     @property
     def authenticator(self) -> APIKeyAuthenticator:
+        token = self.config.get("access_token") or self.config.get("auth_token")
+        if not token:
+            raise FatalAPIError("Access token or auth token required")
+        if self.config.get("access_token"):
+            return BearerTokenAuthenticator.create_for_stream(self, token=token)
+        # Fallback to API key
         return APIKeyAuthenticator.create_for_stream(
             self,
             key="Authorization",
-            value=self.config.get("auth_token"),
+            value=token,
             location="header",
         )
 
