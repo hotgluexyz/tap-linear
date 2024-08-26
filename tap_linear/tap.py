@@ -31,7 +31,6 @@ class TapLinear(Tap):
         th.Property(
             "auth_token",
             th.StringType,
-            required=True,
             description="The token to authenticate against the API service",
         ),
         th.Property(
