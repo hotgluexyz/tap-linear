@@ -58,9 +58,12 @@ class LinearStream(GraphQLStream):
             "%Y-%m-%dT%H:%M:%SZ"
         )
         self.logger.info(f"Previous state timestamp: {value}")
+        variables = {"next": next_page_token, "replicationKeyValue": value}
+        if context and 'variables' in context:
+            variables.update(context['variables'])
         body = {
             "query": self.query,
-            "variables": {"next": next_page_token, "replicationKeyValue": value},
+            "variables": variables,
         }
         return body
 

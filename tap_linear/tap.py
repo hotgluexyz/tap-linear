@@ -11,6 +11,7 @@ from tap_linear.streams import (
     ProjectsStream,
     TeamsStream,
     UsersStream,
+    LabelsStream,
 )
 
 STREAM_TYPES = [
@@ -19,6 +20,7 @@ STREAM_TYPES = [
     UsersStream,
     TeamsStream,
     CommentsStream,
+    LabelsStream,
 ]
 
 
