@@ -8,4 +8,5 @@ labelsSchema = th.PropertiesList(
     th.Property("createdAt", th.DateTimeType),
     th.Property("updatedAt", th.DateTimeType),
     th.Property("archivedAt", th.DateTimeType),
+    th.Property("teamId", th.StringType),
 ).to_dict()

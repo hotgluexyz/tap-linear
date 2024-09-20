@@ -54,7 +54,7 @@ class TeamsStream(LinearStream):
     def get_child_context(self, record: dict, context) -> dict:
         """Return a context dictionary for child streams."""
         return {
-            "variables":{"teamId": record["id"]}
+            "teamId": record["id"]
         }
 
 
@@ -74,6 +74,7 @@ class LabelsStream(LinearStream):
     replication_key = "updatedAt"
     query = labelsQuery
     parent_stream_type = TeamsStream
+    ignore_parent_replication_key = True
 
     def parse_response(self, response: requests.Response) -> Iterable[dict]:
         """Parse the response and return an iterator of result rows."""
