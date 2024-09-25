@@ -19,7 +19,7 @@ issuesQuery = """
 								estimate
 								createdAt
 								boardOrder
-                                branchName
+								branchName
 								startedAt
 								completedAt
 								startedTriageAt
