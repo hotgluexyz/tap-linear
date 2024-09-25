@@ -40,6 +40,7 @@ issuesSchema = th.PropertiesList(
     th.Property("estimate", th.NumberType),
     th.Property("createdAt", th.DateTimeType),
     th.Property("boardOrder", th.IntegerType),
+    th.Property("branchName", th.StringType),
     th.Property("startedAt", th.DateTimeType),
     th.Property("completedAt", th.DateTimeType),
     th.Property("startedTriageAt", th.DateTimeType),
