@@ -12,7 +12,7 @@ issuesQuery = """
 							nodes {
 								id
 								title
-                                description
+								description
 								url
 								updatedAt
 								number
