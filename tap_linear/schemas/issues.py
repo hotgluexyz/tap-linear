@@ -3,6 +3,7 @@ from singer_sdk import typing as th
 issuesSchema = th.PropertiesList(
     th.Property("id", th.StringType),
     th.Property("title", th.StringType),
+    th.Property("description", th.StringType),
     th.Property("url", th.StringType),
     th.Property("updatedAt", th.DateTimeType),
     th.Property(
