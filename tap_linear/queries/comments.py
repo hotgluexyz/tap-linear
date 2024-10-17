@@ -26,6 +26,15 @@ commentsQuery = """
 									id
 									title
 								}
+								user {
+									avatarUrl
+									avatarBackgroundColor
+									displayName
+									email
+									id
+									name
+									url
+								}
 							}
 						}
 					}
