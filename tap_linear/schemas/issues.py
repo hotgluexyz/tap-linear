@@ -20,6 +20,10 @@ issuesSchema = th.PropertiesList(
             th.Property("id", th.StringType),
             th.Property("name", th.StringType),
             th.Property("email", th.StringType),
+            th.Property("avatarUrl", th.StringType),
+            th.Property("avatarBackgroundColor", th.StringType),
+            th.Property("displayName", th.StringType),
+            th.Property("url", th.StringType),
         ),
     ),
     th.Property(

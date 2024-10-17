@@ -63,6 +63,10 @@ issuesQuery = """
 									id
 									name
 									email
+									avatarUrl
+									avatarBackgroundColor
+									displayName
+									url
 								}
 								project {
 									id
