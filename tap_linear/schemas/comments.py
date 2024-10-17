@@ -38,4 +38,16 @@ commentsSchema = th.PropertiesList(
     ),
     th.Property("editedAt", th.DateTimeType),
     th.Property("children", th.CustomType({"type": ["object", "string"]})),
+    th.Property(
+        "user",
+        th.ObjectType(
+            th.Property("avatarUrl", th.StringType),
+            th.Property("avatarBackgroundColor", th.StringType),
+            th.Property("displayName", th.StringType),
+            th.Property("email", th.StringType),
+            th.Property("id", th.StringType),
+            th.Property("name", th.StringType),
+            th.Property("url", th.StringType),
+        )
+    )
 ).to_dict()
