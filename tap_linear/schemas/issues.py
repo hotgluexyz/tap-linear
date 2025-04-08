@@ -78,7 +78,7 @@ issuesSchema = th.PropertiesList(
         "project",
         th.ObjectType(
             th.Property("id", th.StringType),
-            th.Property("number", th.IntegerType),
+            th.Property("name", th.StringType),
         ),
     )
 ).to_dict()
