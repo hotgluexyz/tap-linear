@@ -71,14 +71,14 @@ issuesSchema = th.PropertiesList(
         "cycle",
         th.ObjectType(
             th.Property("id", th.StringType),
-            th.Property("number", th.StringType),
+            th.Property("number", th.IntegerType),
         ),
     ),
     th.Property(
         "project",
         th.ObjectType(
             th.Property("id", th.StringType),
-            th.Property("number", th.StringType),
+            th.Property("number", th.IntegerType),
         ),
     )
 ).to_dict()
