@@ -59,7 +59,26 @@ issuesSchema = th.PropertiesList(
     th.Property("trashed", th.BooleanType),
     th.Property("snoozedUntilAt", th.DateTimeType),
     th.Property("labelIds", th.CustomType({"type": ["array", "string"]})),
-    th.Property("state", th.CustomType({"type": ["object", "string"]})),
-    th.Property("cycle", th.CustomType({"type": ["object", "string"]})),
-    th.Property("project", th.CustomType({"type": ["object", "string"]})),
+    th.Property(
+        "state",
+        th.ObjectType(
+            th.Property("id", th.StringType),
+            th.Property("name", th.StringType),
+            th.Property("type", th.StringType),
+        ),
+    ),
+    th.Property(
+        "cycle",
+        th.ObjectType(
+            th.Property("id", th.StringType),
+            th.Property("number", th.StringType),
+        ),
+    ),
+    th.Property(
+        "project",
+        th.ObjectType(
+            th.Property("id", th.StringType),
+            th.Property("number", th.StringType),
+        ),
+    )
 ).to_dict()
