@@ -10,7 +10,6 @@ commentsSchema = th.PropertiesList(
     th.Property("body", th.StringType),
     th.Property("bodyData", th.StringType),
     th.Property("quotedText", th.StringType),
-    th.Property("summaryText", th.StringType),
     th.Property(
         "reactionData",
         th.ArrayType(
