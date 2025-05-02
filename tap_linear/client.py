@@ -7,7 +7,10 @@ import requests
 from singer_sdk.authenticators import APIKeyAuthenticator, BearerTokenAuthenticator
 from singer_sdk.streams import GraphQLStream
 from singer_sdk.exceptions import FatalAPIError, RetriableAPIError
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 class LinearStream(GraphQLStream):
     """Linear stream class."""
@@ -15,7 +18,9 @@ class LinearStream(GraphQLStream):
 
     @property
     def authenticator(self) -> APIKeyAuthenticator:
-        token = self.config.get("access_token") or self.config.get("auth_token")
+        token = self.config.get("access_token") or self.config.get("auth_token") or os.getenv(
+            "LINEAR_ACCESS_TOKEN"
+        )
         if not token:
             raise FatalAPIError("Access token or auth token required")
         if self.config.get("access_token"):
