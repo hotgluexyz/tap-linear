@@ -9,3 +9,6 @@ tap_linear/config.py
 **/__pycache__/
 **/catalog.json
 **/dist
+.secrets
+.vscode
+.venv

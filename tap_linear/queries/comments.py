@@ -19,7 +19,7 @@ commentsQuery = """
 								editedAt
 								bodyData
 								quotedText
-								summaryText
+								threadSummary
 								reactionData
 								url
 								issue {
