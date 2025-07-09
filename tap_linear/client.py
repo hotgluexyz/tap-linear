@@ -127,12 +127,12 @@ class LinearStream(GraphQLStream):
 
     def response_error_message(self, response: requests.Response) -> str:
         status_code = self.get_response_status_code(response)
-        if 400 <= response.status_code < 500:
+        if 400 <= status_code < 500:
             error_type = "Client"
         else:
             error_type = "Server"
 
         return (
-            f"{response.status_code} {error_type} Error: "
+            f"{status_code} {error_type} Error: "
             f"{response.text} for path: {self.path}"
         )
