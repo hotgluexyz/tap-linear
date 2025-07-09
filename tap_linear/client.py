@@ -4,6 +4,8 @@ from datetime import timedelta
 from typing import Any, Iterable, Optional
 
 import requests
+import time
+import datetime
 from singer_sdk.authenticators import APIKeyAuthenticator, BearerTokenAuthenticator
 from singer_sdk.streams import GraphQLStream
 from singer_sdk.exceptions import FatalAPIError, RetriableAPIError
@@ -77,21 +79,54 @@ class LinearStream(GraphQLStream):
         resp_json = response.json()
         for row in resp_json["data"][self.name]["nodes"]:
             yield row
-    
-    def validate_response(self, response: requests.Response) -> None:
 
+    def get_response_status_code(self, response: requests.Response) -> int:
+        """Try to get the status_code from the body if it's an error response.
+            For example, if the response is a 429 error, the response.status_code will be 400.
+        """
+        status_code = response.status_code
+        try:
+            if status_code >= 400:
+                for error in response.json().get("errors", []):
+                    code = error.get("extensions", {}).get("statusCode")
+                    if code:
+                        status_code = code
+                        break
+        except Exception as e:
+            self.logger.error(f"Error parsing response status code: {response.text} {e}")
+
+        return status_code
+
+    def handle_rate_limit_error(self, response: requests.Response) -> None:
+        """Handle rate limit error."""
+        self.logger.error(f"Rate limit exceeded: {response.text}")
+        retry_after_timestamp = response.headers.get("x-ratelimit-requests-reset")
+        if retry_after_timestamp:
+            retry_after = int(retry_after_timestamp) / 1000
+            now = datetime.datetime.now(datetime.timezone.utc)
+            dt = datetime.datetime.fromtimestamp(retry_after, tz=datetime.timezone.utc)
+            retry_after = (dt - now).total_seconds()
+            self.logger.info(f"Rate limit exceeded. Retrying in {retry_after} seconds.")
+            time.sleep(retry_after)
+        else:
+            self.logger.error(f"Rate limit exceeded. No retry after timestamp found.")
+
+    def validate_response(self, response: requests.Response) -> None:
+        status_code = self.get_response_status_code(response)
         if (
-            response.status_code in self.extra_retry_statuses
-            or 500 <= response.status_code < 600
+            status_code in self.extra_retry_statuses
+            or 500 <= status_code < 600
         ):
+            if status_code == 429:
+                self.handle_rate_limit_error(response)
             msg = self.response_error_message(response)
             raise RetriableAPIError(msg, response)
-        elif 400 <= response.status_code < 500:
+        elif 400 <= status_code < 500:
             msg = self.response_error_message(response)
             raise FatalAPIError(msg)
 
     def response_error_message(self, response: requests.Response) -> str:
-
+        status_code = self.get_response_status_code(response)
         if 400 <= response.status_code < 500:
             error_type = "Client"
         else:
