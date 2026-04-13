@@ -6,9 +6,11 @@ from typing import Any, Iterable, Optional
 import requests
 import time
 import datetime
-from singer_sdk.authenticators import APIKeyAuthenticator, BearerTokenAuthenticator
-from singer_sdk.streams import GraphQLStream
-from singer_sdk.exceptions import FatalAPIError, RetriableAPIError
+from hotglue_singer_sdk.authenticators import APIKeyAuthenticator, BearerTokenAuthenticator
+from hotglue_singer_sdk.streams import GraphQLStream
+from hotglue_singer_sdk.exceptions import FatalAPIError, RetriableAPIError
+from tap_linear.auth import LinearOAuthAuthenticator
+
 
 
 class LinearStream(GraphQLStream):
@@ -17,6 +19,15 @@ class LinearStream(GraphQLStream):
 
     @property
     def authenticator(self) -> APIKeyAuthenticator:
+        # OAuth flow: use OAuthAuthenticator for auto-refresh mid-sync
+        if self.config.get("refresh_token"):
+            if not hasattr(self._tap, "_oauth_authenticator"):
+                self._tap._oauth_authenticator = LinearOAuthAuthenticator(
+                    stream=self,
+                    auth_endpoint="https://api.linear.app/oauth/token",
+                )
+            return self._tap._oauth_authenticator
+        # Bearer token (OAuth access_token without refresh, or personal API key)
         token = self.config.get("access_token") or self.config.get("auth_token")
         if not token:
             raise FatalAPIError("Access token or auth token required")

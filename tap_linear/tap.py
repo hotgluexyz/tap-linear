@@ -2,9 +2,10 @@
 
 from typing import List
 
-from singer_sdk import Stream, Tap
-from singer_sdk import typing as th
+from hotglue_singer_sdk import Stream, Tap
+from hotglue_singer_sdk import typing as th
 
+from tap_linear.auth import LinearOAuthAuthenticator
 from tap_linear.streams import (
     CommentsStream,
     IssuesStream,
@@ -36,6 +37,26 @@ class TapLinear(Tap):
             description="The token to authenticate against the API service",
         ),
         th.Property(
+            "access_token",
+            th.StringType,
+            description="OAuth access token",
+        ),
+        th.Property(
+            "refresh_token",
+            th.StringType,
+            description="OAuth refresh token",
+        ),
+        th.Property(
+            "client_id",
+            th.StringType,
+            description="OAuth client ID",
+        ),
+        th.Property(
+            "client_secret",
+            th.StringType,
+            description="OAuth client secret",
+        ),
+        th.Property(
             "api_url",
             th.StringType,
             default="https://api.linear.app/graphql",
@@ -48,6 +69,10 @@ class TapLinear(Tap):
             default="2010-01-01T00:00:00.000Z",
         ),
     ).to_dict()
+
+    @classmethod
+    def access_token_support(cls, connector=None):
+        return (LinearOAuthAuthenticator, "https://api.linear.app/oauth/token")
 
     def discover_streams(self) -> List[Stream]:
         """Return a list of discovered streams."""
